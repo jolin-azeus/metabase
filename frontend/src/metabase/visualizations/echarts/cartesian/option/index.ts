@@ -23,7 +23,7 @@ import type { TimelineEventId } from "metabase-types/api";
 import type { ChartMeasurements } from "../chart-measurements/types";
 import { getBarSeriesDataLabelKey } from "../model/util";
 
-import { getGoalLineSeriesOption } from "./goal-line";
+import { getGoalLineSeriesOption, getXcontrolGoalLineSeriesOption } from "./goal-line";
 import { getTrendLinesOption } from "./trend-line";
 
 export const getSharedEChartsOptions = (isAnimated: boolean) => ({
@@ -69,7 +69,15 @@ export const getCartesianChartOption = (
     chartMeasurements,
     renderingContext,
   );
-  const goalSeriesOption = getGoalLineSeriesOption(
+
+  const xcontrolShowCustom = !!settings["xcontrol.show_custom"];
+  const goalSeriesOption = xcontrolShowCustom?
+  getXcontrolGoalLineSeriesOption(
+    chartModel,
+    settings,
+    renderingContext,
+  ) :
+  getGoalLineSeriesOption(
     chartModel,
     settings,
     renderingContext,
