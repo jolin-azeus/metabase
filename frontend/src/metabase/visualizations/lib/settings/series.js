@@ -58,7 +58,7 @@ export function seriesSetting({
       },
       getHidden: (single, settings, { series }) => {
         return (
-          !["line", "area", "bar", "combo"].includes(single.card.display) ||
+          !["line", "area", "bar", "combo", "xcontrol"].includes(single.card.display) ||
           settings["stackable.stack_type"] != null
         );
       },

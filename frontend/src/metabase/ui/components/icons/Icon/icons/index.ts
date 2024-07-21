@@ -385,6 +385,8 @@ import warning_component from "./warning.svg?component";
 import warning_source from "./warning.svg?source";
 import waterfall_component from "./waterfall.svg?component";
 import waterfall_source from "./waterfall.svg?source";
+import xcontrol_component from "./xcontrol.svg?component";
+import xcontrol_source from "./xcontrol.svg?source";
 import zoom_in_component from "./zoom_in.svg?component";
 import zoom_in_source from "./zoom_in.svg?source";
 import zoom_out_component from "./zoom_out.svg?component";
@@ -1156,6 +1158,10 @@ export const Icons = {
   waterfall: {
     component: waterfall_component,
     source: waterfall_source,
+  },
+  xcontrol: {
+    component: xcontrol_component,
+    source: xcontrol_source,
   },
   "10k": {
     component: ten_thousand_component,

@@ -33,6 +33,7 @@ const DEFAULT_ORDER = [
   "row",
   "area",
   "combo",
+  "xcontrol",
   "pivot",
   "smartscalar",
   "gauge",

@@ -162,6 +162,10 @@ describe("GRAPH_AXIS_SETTINGS", () => {
         expectedHidden: false,
       },
       {
+        display: "xcontrol",
+        expectedHidden: false,
+      },
+      {
         display: "waterfall",
         expectedHidden: true,
       },
@@ -219,6 +223,10 @@ describe("GRAPH_AXIS_SETTINGS", () => {
       },
       {
         display: "combo",
+        expectedDefault: false,
+      },
+      {
+        display: "xcontrol",
         expectedDefault: false,
       },
     ])(
