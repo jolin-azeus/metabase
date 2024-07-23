@@ -134,6 +134,13 @@ export function getXcontrolGoalLineSeriesOption(
     chartModel.yAxisScaleTransforms.toEChartsAxisValue(
       valSTDDEV,
     );
+  const scaleTransformedGoalValueLDEV =
+    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueSTDDEV)?
+    (
+      (scaleTransformedGoalValue - scaleTransformedGoalValueSTDDEV * 3) > 0?
+      scaleTransformedGoalValueSTDDEV : scaleTransformedGoalValue / 3
+    ) : null;
+
   const scaleTransformedGoalValueUCL =
     isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueSTDDEV)?
     (scaleTransformedGoalValue + scaleTransformedGoalValueSTDDEV * 3) : null;
@@ -144,14 +151,14 @@ export function getXcontrolGoalLineSeriesOption(
     isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueSTDDEV)?
     (scaleTransformedGoalValue + scaleTransformedGoalValueSTDDEV) : null;
   const scaleTransformedGoalValueLCL =
-    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueSTDDEV)?
-    0 : null;
+    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueLDEV)?
+    (scaleTransformedGoalValue - scaleTransformedGoalValueLDEV * 3) : null;
   const scaleTransformedGoalValueLCLA =
-    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueSTDDEV)?
-    (scaleTransformedGoalValue / 3) : null;
+    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueLDEV)?
+    (scaleTransformedGoalValue - scaleTransformedGoalValueLDEV * 2) : null;
   const scaleTransformedGoalValueLCLB =
-    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueSTDDEV)?
-    (scaleTransformedGoalValue / 3 * 2) : null;
+    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueLDEV)?
+    (scaleTransformedGoalValue - scaleTransformedGoalValueLDEV) : null;
 
   const { fontSize } = renderingContext.theme.cartesian.goalLine.label;
 

@@ -29,7 +29,10 @@ export const GRAPH_GOAL_SETTINGS = {
     section: t`Display`,
     title: t`Goal line`,
     widget: "toggle",
-    default: false,
+    /*default: false,*/
+    getDefault: (_series: unknown, vizSettings: VisualizationSettings) => {
+      return vizSettings["xcontrol.show_custom"] === true;
+    },
     inline: true,
     marginBottom: "1rem",
   },
