@@ -25,6 +25,7 @@ import { SmartScalar } from "./visualizations/SmartScalar";
 import Table from "./visualizations/Table";
 import { Text } from "./visualizations/Text";
 import { WaterfallChart } from "./visualizations/WaterfallChart";
+import { XcontrolChart } from "./visualizations/XcontrolChart";
 
 export default function () {
   registerVisualization(Scalar);
@@ -37,6 +38,7 @@ export default function () {
   registerVisualization(BarChart);
   registerVisualization(WaterfallChart);
   registerVisualization(ComboChart);
+  registerVisualization(XcontrolChart);
   registerVisualization(RowChart);
   registerVisualization(ScatterPlot);
   registerVisualization(PieChart);

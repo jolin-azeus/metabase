@@ -112,6 +112,7 @@ describe("ChartSettingsSidebar", () => {
       "Row",
       "Area",
       "Combo",
+      "Xcontrol",
       "Pivot Table",
       "Trend",
       "Funnel",

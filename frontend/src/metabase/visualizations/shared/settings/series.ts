@@ -35,6 +35,10 @@ export const getSeriesDefaultDisplay = (cardDisplay: string, index: number) => {
     return index === 0 ? "line" : "bar";
   }
 
+  if (cardDisplay === "xcontrol") {
+    return "line";
+  }
+
   return cardDisplay;
 };
 

@@ -9,6 +9,7 @@ import { getStackOffset } from "./stacking";
 const getGoalValue = (value: number, isPercent: boolean) =>
   isPercent ? value / 100 : value;
 
+/* Called by Row Chart only (to generate VerticalGoalLine), no change */
 export const getChartGoal = (
   settings: VisualizationSettings,
 ): ChartGoal | null => {
@@ -28,7 +29,10 @@ export const GRAPH_GOAL_SETTINGS = {
     section: t`Display`,
     title: t`Goal line`,
     widget: "toggle",
-    default: false,
+    /*default: false,*/
+    getDefault: (_series: unknown, vizSettings: VisualizationSettings) => {
+      return vizSettings["xcontrol.show_custom"] === true;
+    },
     inline: true,
     marginBottom: "1rem",
   },
@@ -38,7 +42,7 @@ export const GRAPH_GOAL_SETTINGS = {
     widget: "number",
     default: 0,
     getHidden: (_series: unknown, vizSettings: VisualizationSettings) =>
-      vizSettings["graph.show_goal"] !== true,
+      vizSettings["graph.show_goal"] !== true || vizSettings["xcontrol.show_custom"] === true,
     readDependencies: ["graph.show_goal"],
   },
   "graph.goal_label": {
@@ -47,7 +51,7 @@ export const GRAPH_GOAL_SETTINGS = {
     widget: "input",
     getDefault: getDefaultGoalLabel,
     getHidden: (_series: unknown, vizSettings: VisualizationSettings) =>
-      vizSettings["graph.show_goal"] !== true,
+      vizSettings["graph.show_goal"] !== true || vizSettings["xcontrol.show_custom"] === true,
     readDependencies: ["graph.show_goal"],
   },
 };

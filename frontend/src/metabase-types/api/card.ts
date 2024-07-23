@@ -179,6 +179,10 @@ export type VisualizationSettings = {
   "waterfall.total_color"?: string;
   "waterfall.show_total"?: boolean;
 
+  // Xcontrol settings
+  "xcontrol.show_custom"?: boolean;
+  "xcontrol.show_goal_label"?: boolean;
+
   // Funnel settings
   "funnel.rows"?: SeriesOrderSetting[];
 

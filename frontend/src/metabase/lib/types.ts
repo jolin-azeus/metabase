@@ -14,6 +14,10 @@ export const isNumber = (value: unknown): value is number => {
   return typeof value === "number";
 };
 
+export const isValidNumber = (value: unknown): value is number => {
+  return typeof value === "number" && value != null && !Number.isNaN(value);
+};
+
 export const checkNotNull = <T>(value: T | null | undefined): T => {
   if (value != null) {
     return value;

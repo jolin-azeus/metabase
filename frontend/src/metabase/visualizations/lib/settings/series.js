@@ -58,7 +58,7 @@ export function seriesSetting({
       },
       getHidden: (single, settings, { series }) => {
         return (
-          !["line", "area", "bar", "combo"].includes(single.card.display) ||
+          !["line", "area", "bar", "combo", "xcontrol"].includes(single.card.display) ||
           settings["stackable.stack_type"] != null
         );
       },
@@ -142,9 +142,11 @@ export function seriesSetting({
       },
       getHidden: (single, settings) =>
         !LINE_DISPLAY_TYPES.has(settings["display"]),
-      getDefault: (single, settings, { settings: vizSettings }) =>
+      getDefault: (single, settings, { settings: vizSettings }) => {
+        return vizSettings["xcontrol.show_custom"] === true? true :
         // use legacy global line.marker_enabled setting if present
-        getSeriesDefaultLineMarker(vizSettings),
+        getSeriesDefaultLineMarker(vizSettings);
+      },
       readDependencies: ["display"],
     },
     "line.missing": {

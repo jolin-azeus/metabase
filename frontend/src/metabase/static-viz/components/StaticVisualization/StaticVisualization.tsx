@@ -7,6 +7,7 @@ import { ScalarChart } from "../ScalarChart";
 import { ScatterPlot } from "../ScatterPlot/ScatterPlot";
 import { SmartScalar } from "../SmartScalar";
 import { WaterfallChart } from "../WaterfallChart/WaterfallChart";
+import { XcontrolChart } from "../XcontrolChart";
 
 export const StaticVisualization = (props: StaticVisualizationProps) => {
   const display = props.rawSeries[0].card.display;
@@ -21,6 +22,8 @@ export const StaticVisualization = (props: StaticVisualizationProps) => {
     case "bar":
     case "combo":
       return <ComboChart {...staticVisualizationProps} />;
+    case "xcontrol":
+      return <XcontrolChart {...staticVisualizationProps} />;
     case "scatter":
       return <ScatterPlot {...staticVisualizationProps} />;
     case "waterfall":
