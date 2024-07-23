@@ -471,6 +471,11 @@ export const getGoalLineHoverData = (
   event: EChartsSeriesMouseEvent,
 ) => {
   const element = event.event.event.target as Element;
+  const xcontrolShowCustom = !!settings["xcontrol.show_custom"];
+  /* For Xcontrol Chart, skip to show goal value */
+  if (xcontrolShowCustom) {
+    return null;
+  }
 
   if (element?.nodeName !== "text") {
     return null;

@@ -1,6 +1,6 @@
 import type { CustomSeriesOption } from "echarts/charts";
 
-import { isNotNull } from "metabase/lib/types";
+import { isNotNull, isValidNumber } from "metabase/lib/types";
 import type {
   ComputedVisualizationSettings,
   RenderingContext,
@@ -120,9 +120,9 @@ export function getXcontrolGoalLineSeriesOption(
 ): CustomSeriesOption | null {
   const [xCL, xUCLA, xUCLB, xUCL, xLCLA, xLCLB, xLCL, xSTDDEV] = ["CL", "UCLA", "UCLB", "UCL", "LCLA", "LCLB", "LCL", "STDDEV"];
   const cardId = chartModel.seriesModels?.[0].cardId;
-  const valCL = chartModel.dataset?.[0][cardId+":"+xCL];
-  const valSTDDEV = chartModel.dataset?.[0][cardId+":"+xSTDDEV];
-  if (!settings["graph.show_goal"] || valCL == null) {
+  const valCL = Number(chartModel.dataset?.[0][cardId+":"+xCL]);
+  const valSTDDEV = Number(chartModel.dataset?.[0][cardId+":"+xSTDDEV]);
+  if (!settings["graph.show_goal"] || !isValidNumber(valCL)) {
     return null;
   }
 
@@ -131,33 +131,34 @@ export function getXcontrolGoalLineSeriesOption(
       valCL,
     );
   const scaleTransformedGoalValueSTDDEV =
+    isValidNumber(valSTDDEV)?
     chartModel.yAxisScaleTransforms.toEChartsAxisValue(
       valSTDDEV,
-    );
+    ) : null;
   const scaleTransformedGoalValueLDEV =
-    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueSTDDEV)?
+    isValidNumber(scaleTransformedGoalValue) && isValidNumber(scaleTransformedGoalValueSTDDEV)?
     (
       (scaleTransformedGoalValue - scaleTransformedGoalValueSTDDEV * 3) > 0?
       scaleTransformedGoalValueSTDDEV : scaleTransformedGoalValue / 3
     ) : null;
 
   const scaleTransformedGoalValueUCL =
-    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueSTDDEV)?
+    isValidNumber(scaleTransformedGoalValue) && isValidNumber(scaleTransformedGoalValueSTDDEV)?
     (scaleTransformedGoalValue + scaleTransformedGoalValueSTDDEV * 3) : null;
   const scaleTransformedGoalValueUCLA =
-    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueSTDDEV)?
+    isValidNumber(scaleTransformedGoalValue) && isValidNumber(scaleTransformedGoalValueSTDDEV)?
     (scaleTransformedGoalValue + scaleTransformedGoalValueSTDDEV * 2) : null;
   const scaleTransformedGoalValueUCLB =
-    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueSTDDEV)?
+    isValidNumber(scaleTransformedGoalValue) && isValidNumber(scaleTransformedGoalValueSTDDEV)?
     (scaleTransformedGoalValue + scaleTransformedGoalValueSTDDEV) : null;
   const scaleTransformedGoalValueLCL =
-    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueLDEV)?
+    isValidNumber(scaleTransformedGoalValue) && isValidNumber(scaleTransformedGoalValueLDEV)?
     (scaleTransformedGoalValue - scaleTransformedGoalValueLDEV * 3) : null;
   const scaleTransformedGoalValueLCLA =
-    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueLDEV)?
+    isValidNumber(scaleTransformedGoalValue) && isValidNumber(scaleTransformedGoalValueLDEV)?
     (scaleTransformedGoalValue - scaleTransformedGoalValueLDEV * 2) : null;
   const scaleTransformedGoalValueLCLB =
-    isNotNull(scaleTransformedGoalValue) && isNotNull(scaleTransformedGoalValueLDEV)?
+    isValidNumber(scaleTransformedGoalValue) && isValidNumber(scaleTransformedGoalValueLDEV)?
     (scaleTransformedGoalValue - scaleTransformedGoalValueLDEV) : null;
 
   const { fontSize } = renderingContext.theme.cartesian.goalLine.label;
@@ -205,7 +206,7 @@ export function getXcontrolGoalLineSeriesOption(
           lineDash: GOAL_LINE_DASH,
         },
       };
-      const lineUCL = {
+      const lineUCL = isValidNumber(scaleTransformedGoalValueUCL)? {
         type: "line" as const,
         shape: {
           x1: xStart,
@@ -224,8 +225,8 @@ export function getXcontrolGoalLineSeriesOption(
           color: "red",
           lineDash: GOAL_LINE_DASH,
         },
-      };
-      const lineUCLA = {
+      } : null;
+      const lineUCLA = isValidNumber(scaleTransformedGoalValueUCLA)? {
         type: "line" as const,
         shape: {
           x1: xStart,
@@ -244,8 +245,8 @@ export function getXcontrolGoalLineSeriesOption(
           color: renderingContext.getColor("text-medium"),
           lineDash: GOAL_LINE_DASH,
         },
-      };
-      const lineUCLB = {
+      } : null;
+      const lineUCLB = isValidNumber(scaleTransformedGoalValueUCLB)? {
         type: "line" as const,
         shape: {
           x1: xStart,
@@ -264,8 +265,8 @@ export function getXcontrolGoalLineSeriesOption(
           color: renderingContext.getColor("text-medium"),
           lineDash: GOAL_LINE_DASH,
         },
-      };
-      const lineLCL = {
+      } : null;
+      const lineLCL = isValidNumber(scaleTransformedGoalValueLCL)? {
         type: "line" as const,
         shape: {
           x1: xStart,
@@ -284,8 +285,8 @@ export function getXcontrolGoalLineSeriesOption(
           color: "red",
           lineDash: GOAL_LINE_DASH,
         },
-      };
-      const lineLCLA = {
+      } : null;
+      const lineLCLA = isValidNumber(scaleTransformedGoalValueLCLA)? {
         type: "line" as const,
         shape: {
           x1: xStart,
@@ -304,8 +305,8 @@ export function getXcontrolGoalLineSeriesOption(
           color: renderingContext.getColor("text-medium"),
           lineDash: GOAL_LINE_DASH,
         },
-      };
-      const lineLCLB = {
+      } : null;
+      const lineLCLB = isValidNumber(scaleTransformedGoalValueLCLB)? {
         type: "line" as const,
         shape: {
           x1: xStart,
@@ -324,7 +325,7 @@ export function getXcontrolGoalLineSeriesOption(
           color: renderingContext.getColor("text-medium"),
           lineDash: GOAL_LINE_DASH,
         },
-      };
+      } : null;
 
       const hasRightYAxis = chartModel.rightAxisModel == null;
       const align = hasRightYAxis ? ("right" as const) : ("left" as const);
@@ -356,7 +357,7 @@ export function getXcontrolGoalLineSeriesOption(
           fill: "blue",
         },
       };
-      const labelUCL = {
+      const labelUCL = isValidNumber(scaleTransformedGoalValueUCL)? {
         type: "text" as const,
         x: labelX,
         y: labelYUCL,
@@ -373,8 +374,8 @@ export function getXcontrolGoalLineSeriesOption(
           fontWeight: CHART_STYLE.goalLine.label.weight,
           fill: "red",
         },
-      };
-      const labelUCLA = {
+      } : null;
+      const labelUCLA = isValidNumber(scaleTransformedGoalValueUCLA)? {
         type: "text" as const,
         x: labelX,
         y: labelYUCLA,
@@ -391,8 +392,8 @@ export function getXcontrolGoalLineSeriesOption(
           fontWeight: CHART_STYLE.goalLine.label.weight,
           fill: renderingContext.getColor("text-medium"),
         },
-      };
-      const labelUCLB = {
+      } : null;
+      const labelUCLB = isValidNumber(scaleTransformedGoalValueUCLB)? {
         type: "text" as const,
         x: labelX,
         y: labelYUCLB,
@@ -409,8 +410,8 @@ export function getXcontrolGoalLineSeriesOption(
           fontWeight: CHART_STYLE.goalLine.label.weight,
           fill: renderingContext.getColor("text-medium"),
         },
-      };
-      const labelLCL = {
+      } : null;
+      const labelLCL = isValidNumber(scaleTransformedGoalValueLCL)? {
         type: "text" as const,
         x: labelX,
         y: labelYLCL,
@@ -427,8 +428,8 @@ export function getXcontrolGoalLineSeriesOption(
           fontWeight: CHART_STYLE.goalLine.label.weight,
           fill: "red",
         },
-      };
-      const labelLCLA = {
+      } : null;
+      const labelLCLA = isValidNumber(scaleTransformedGoalValueLCLA)? {
         type: "text" as const,
         x: labelX,
         y: labelYLCLA,
@@ -445,8 +446,8 @@ export function getXcontrolGoalLineSeriesOption(
           fontWeight: CHART_STYLE.goalLine.label.weight,
           fill: renderingContext.getColor("text-medium"),
         },
-      };
-      const labelLCLB = {
+      } : null;
+      const labelLCLB = isValidNumber(scaleTransformedGoalValueLCLB)? {
         type: "text" as const,
         x: labelX,
         y: labelYLCLB,
@@ -463,13 +464,13 @@ export function getXcontrolGoalLineSeriesOption(
           fontWeight: CHART_STYLE.goalLine.label.weight,
           fill: renderingContext.getColor("text-medium"),
         },
-      };
+      } : null;
 
       return {
         type: "group" as const,
         children: [line, label,
                    lineUCL, labelUCL, lineUCLA, labelUCLA, lineUCLB, labelUCLB,
-                   lineLCL, labelLCL, lineLCLA, labelLCLA, lineLCLB, labelLCLB],
+                   lineLCL, labelLCL, lineLCLA, labelLCLA, lineLCLB, labelLCLB].filter(isNotNull),
       };
     },
   };
